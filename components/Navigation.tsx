@@ -142,7 +142,7 @@ export function MobileNavigation({
       />
 
       <nav
-        className={`nav-panel fixed top-0 left-0 z-40 flex h-full w-[min(280px,85vw)] flex-col border-r border-black/10 bg-transparent px-7 py-10 backdrop-blur-sm transition-transform duration-300 lg:hidden ${
+        className={`nav-panel fixed top-0 left-0 z-40 flex h-full w-[min(280px,85vw)] flex-col border-r border-black/10 bg-transparent px-7 pb-10 pt-[6.75rem] backdrop-blur-sm transition-transform duration-300 lg:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Exhibition navigation"
