@@ -1,6 +1,5 @@
 "use client";
 
-import { ArtistName } from "@/components/ArtistName";
 import { ContentArea } from "@/components/ContentArea";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ARTIST_STATEMENT, SITE } from "@/lib/content";
@@ -20,7 +19,7 @@ export function AboutSection() {
             About the Artist
           </p>
           <h2 className="font-serif text-3xl font-light md:text-4xl lg:text-5xl">
-            <ArtistName coverColor="#f2f0ec" />
+            {SITE.name}
           </h2>
         </div>
 

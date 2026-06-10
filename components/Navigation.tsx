@@ -1,10 +1,10 @@
 "use client";
 
-import { ArtistName } from "@/components/ArtistName";
 import {
   NAV_ITEMS,
   PROJECTS,
   SECTION_PALETTES,
+  SITE,
 } from "@/lib/content";
 import type { ProjectPalette } from "@/lib/types";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -232,13 +232,7 @@ function SidebarContent({
                 : { color: "#1a1816" }
             }
           >
-            <ArtistName
-              coverColor={
-                (adaptive
-                  ? linkPalettes?.[HOME_NAV_ID]?.bg
-                  : DEFAULT_PALETTE.bg) ?? DEFAULT_PALETTE.bg
-              }
-            />
+            {SITE.name}
           </h1>
         </button>
       </header>
