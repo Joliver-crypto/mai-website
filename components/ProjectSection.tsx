@@ -120,7 +120,7 @@ export function ProjectSection({ project, index }: ProjectSectionProps) {
             style={{ borderColor: `${palette.accent}33` }}
           >
             <p
-              className="max-w-2xl text-[15px] leading-[1.9] italic"
+              className="max-w-2xl text-[15px] leading-[1.9] whitespace-pre-line italic"
               style={{ color: palette.textMuted }}
             >
               {project.descriptionVi}

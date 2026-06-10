@@ -105,6 +105,9 @@ function useNavLinkPalettes(linkIds: string[]) {
   return { palettes, setRef };
 }
 
+const MOBILE_MENU_ID = "mobile-menu";
+const MOBILE_CLOSE_ID = "mobile-close";
+
 export function MobileNavigation({
   activeSection,
   onNavigate,
@@ -115,12 +118,27 @@ export function MobileNavigation({
   const workItems = NAV_ITEMS.filter((item) => item.group === "work");
   const infoItems = NAV_ITEMS.filter((item) => item.group === "info");
 
+  const linkIds = useMemo(
+    () => [
+      MOBILE_MENU_ID,
+      MOBILE_CLOSE_ID,
+      HOME_NAV_ID,
+      ...NAV_ITEMS.map((item) => item.id),
+    ],
+    []
+  );
+  const { palettes, setRef } = useNavLinkPalettes(linkIds);
+  const menuPalette = palettes[MOBILE_MENU_ID] ?? DEFAULT_PALETTE;
+  const closePalette = palettes[MOBILE_CLOSE_ID] ?? DEFAULT_PALETTE;
+
   return (
     <>
       <button
         type="button"
         aria-label="Open menu"
-        className="fixed top-6 left-6 z-50 flex h-9 w-9 items-center justify-center text-[#1a1816] lg:hidden"
+        ref={setRef(MOBILE_MENU_ID)}
+        className="fixed top-6 left-6 z-50 flex h-9 w-9 items-center justify-center transition-colors duration-200 lg:hidden"
+        style={{ color: menuPalette.text }}
         onClick={onMobileToggle}
       >
         <span className="sr-only">Menu</span>
@@ -142,7 +160,7 @@ export function MobileNavigation({
       />
 
       <nav
-        className={`nav-panel fixed top-0 left-0 z-40 flex h-full w-[min(280px,85vw)] flex-col border-r border-black/10 bg-transparent px-7 pb-10 pt-[6.75rem] backdrop-blur-sm transition-transform duration-300 lg:hidden ${
+        className={`nav-panel fixed top-0 left-0 z-40 flex h-full w-[min(280px,85vw)] flex-col border-r border-black/10 bg-transparent px-7 pb-10 pt-20 backdrop-blur-sm transition-transform duration-300 lg:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
         aria-label="Exhibition navigation"
@@ -150,7 +168,9 @@ export function MobileNavigation({
         <button
           type="button"
           aria-label="Close menu"
-          className="absolute top-5 right-5 text-black/40"
+          ref={setRef(MOBILE_CLOSE_ID)}
+          className="absolute top-5 right-5 transition-colors duration-200"
+          style={{ color: closePalette.textMuted }}
           onClick={onMobileClose}
         >
           ✕
@@ -160,6 +180,9 @@ export function MobileNavigation({
           workItems={workItems}
           infoItems={infoItems}
           onNavigate={onNavigate}
+          linkPalettes={palettes}
+          setRef={setRef}
+          compact
         />
       </nav>
     </>
@@ -205,6 +228,7 @@ function SidebarContent({
   onNavigate,
   linkPalettes,
   setRef,
+  compact = false,
 }: {
   activeSection: string;
   workItems: typeof NAV_ITEMS;
@@ -212,12 +236,13 @@ function SidebarContent({
   onNavigate: (id: string) => void;
   linkPalettes?: Record<string, ProjectPalette>;
   setRef?: (id: string) => (el: HTMLElement | null) => void;
+  compact?: boolean;
 }) {
   const adaptive = !!linkPalettes && !!setRef;
 
   return (
     <>
-      <header className="mb-8">
+      <header className={compact ? "mb-4" : "mb-8"}>
         <button
           type="button"
           ref={adaptive ? setRef(HOME_NAV_ID) : undefined}
